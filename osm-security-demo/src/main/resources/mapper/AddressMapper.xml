@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.osm.dao.AddressDao">
+ 	<parameterMap id="Address" type="com.osm.dto.Address"/>
+ 	
+    <resultMap id="AddressResult" type="Address">
+      <id column="id" property="id" />
+      <result column="sheng" property="sheng" />
+      <result column="shi" property="shi" />
+      <result column="qv" property="qv" />
+    </resultMap>
+	
+	<select id="getById" parameterType="Integer" resultType="Address">
+		select * from address where id=#{id}
+	</select>
+</mapper>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.osm.dao.StudentDao">
+ 	<parameterMap id="Student" type="com.osm.dto.Student"/>
+ 	
+    <resultMap id="StudentResult" type="Student">
+      <id column="id" property="id" />
+      <result column="name" property="name" />
+      <result column="age" property="age" />
+    <!--   <association property="address" column="addressId" select="com.osm.dao.AddressDao.getById" />
+      <association property="grade" column="gradeId" select="com.osm.dao.GradeDao.findById" /> -->
+    </resultMap>
+    
+    <select id="searchStudents6" resultMap="StudentResult">
+		select * from student where name like #{param1} and age=#{param2}
+	</select>
+    
+    <insert id="insertStudent" parameterType="Student">
+		insert into student values(null,#{name},#{age},#{pic},#{remark});
+	</insert>
+	
+	<select id="getStudentById" parameterType="Integer" resultType="Student">
+		select * from student where id=#{id}
+	</select>
+    
+    <!-- 动态SQL -->
+    
+    	<update id="updateStudent" parameterType="Student">
+			update student
+				<set>
+				 <if test="name!=null">
+				 	name=#{name},
+				 </if>
+				 <if test="age!=null">
+				 	age=#{age},
+				 </if>
+				</set>
+					where id=#{id}
+		</update>
+    
+    	<select id="searchStudents5" parameterType="Map" resultMap="StudentResult">
+			select * from student 
+			 <if test="gradeIds!=null">
+			 	<where>
+			 		gradeId in 
+			 		<foreach item="gradeId" collection="gradeIds" open="(" separator="," close=")">
+			 		 #{gradeId}
+			 		</foreach>
+			 	</where>
+			 </if>
+		</select>
+    
+    	<select id="searchStudents4" parameterType="Map" resultMap="StudentResult">
+			select * from student 
+			 <trim prefix="where" prefixOverrides="and|or">
+				 <if test="gradeId!=null">
+				 	gradeId=#{gradeId}
+				 </if>
+				 <if test="name!=null">
+				 	and name like #{name}
+				 </if>
+				 <if test="age!=nulll">
+				 	and age=#{age}
+				 </if>
+			 </trim>
+		</select>
+    
+    	<select id="searchStudents3" parameterType="Map" resultMap="StudentResult">
+			select * from student 
+			 <where>
+				 <if test="gradeId!=null">
+				 	gradeId=#{gradeId}
+				 </if>
+				 <if test="name!=null">
+				 	and name like #{name}
+				 </if>
+				 <if test="age!=nulll">
+				 	and age=#{age}
+				 </if>
+			 </where>
+		</select>
+    
+    <select id="searchStudents2" parameterType="Map" resultMap="StudentResult">
+		select * from student 
+		 <choose>
+		 	<when test="searchBy=='gradeId'">
+		 		where gradeId=#{gradeId}
+		 	</when>
+		 	<when test="searchBy=='name'">
+		 		where name like #{name}
+		 	</when>
+		 	<otherwise>
+		 		where age=#{age}
+		 	</otherwise>
+		 </choose>
+		 
+	</select>
+    
+	<select id="searchStudents" parameterType="Map" resultMap="StudentResult">
+		select * from student 
+		 where gradeId=#{gradeId}
+		 <if test="name!=null">
+		 	and name like #{name}
+		 </if>
+		 <if test="age!=nulll">
+		 	and age=#{age}
+		 </if>
+	</select>
+    
+    
+     <select id="findStudentWithAddress" resultMap="StudentResult" parameterType="Integer">
+		select * from student s, address a where s.addressId=a.id and s.id=#{id}
+	</select>
+	
+    <select id="findByGradeId" resultMap="StudentResult" parameterType="Integer">
+		select * from student where gradeId=#{gradeId}
+	</select>
+    
+   <select id="getById" parameterType="Integer" resultType="Student">
+		select * from student where id=#{id}
+	</select>
+    
+    <insert id="create" parameterType="Student">
+		insert into student values(null, #{name}, #{age})
+	</insert>
+	
+	<update id="update" parameterType="Student">
+	    update student set name=#{name}, age=#{age} where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="Integer">
+		delete from student where id=#{id}
+	</delete>
+	
+	
+	
+	<select id="query" resultMap="StudentResult">
+	    select * from student
+	</select>
+</mapper>
