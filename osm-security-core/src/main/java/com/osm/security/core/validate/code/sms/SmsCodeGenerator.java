@@ -16,7 +16,8 @@ import com.osm.security.core.validate.code.ValidateCodeGenerator;
  * @author ouShiming
  *
  */
-@Component("smsCodeGenerator")
+//@Component("smsCodeGenerator")
+@Component("smsValidateCodeGenerator")
 public class SmsCodeGenerator implements ValidateCodeGenerator {
 
 	@Autowired

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.osm.security.core.properties.LoginResponseType;
-import com.osm.security.core.properties.LoginType;
 import com.osm.security.core.properties.SecurityProperties;
 
 /**

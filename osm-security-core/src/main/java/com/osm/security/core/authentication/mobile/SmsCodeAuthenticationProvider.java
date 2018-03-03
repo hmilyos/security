@@ -20,7 +20,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.security.authentication.AuthenticationProvider#
 	 * authenticate(org.springframework.security.core.Authentication)
 	 */
@@ -28,15 +28,15 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
 		SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
-		
+
 		UserDetails user = userDetailsService.loadUserByUsername((String) authenticationToken.getPrincipal());
 
 		if (user == null) {
 			throw new InternalAuthenticationServiceException("无法获取用户信息");
 		}
-		
+
 		SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(user, user.getAuthorities());
-		
+
 		authenticationResult.setDetails(authenticationToken.getDetails());
 
 		return authenticationResult;
@@ -44,7 +44,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.security.authentication.AuthenticationProvider#
 	 * supports(java.lang.Class)
 	 */
@@ -60,6 +60,5 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 	public void setUserDetailsService(UserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
 	}
-
 
 }
